@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/index.ts"],
+  "sourcesContent": ["const template = document.createElement(\"div\");\n\nconst randomValue: number = Math.random();\n\ntemplate.innerHTML = `\n    <h1>Hello motto ${randomValue}</h2>\n`;\n\ndocument.querySelector(\"body\")?.appendChild(template);\n\nsetTimeout(async () => {\n  const mod = await import(\"./test/test.ts\");\n  mod.errorMe(\"kupa\");\n}, 2000);\n"],
+  "mappings": "AAAA,IAAMA,EAAW,SAAS,cAAc,KAAK,EAEvCC,EAAsB,KAAK,OAAO,EAExCD,EAAS,UAAY;AAAA,sBACCC;AAAA,EAGtB,SAAS,cAAc,MAAM,GAAG,YAAYD,CAAQ,EAEpD,WAAW,SAAY,EACT,KAAM,QAAO,uBACrB,QAAQ,MAAM,CACpB,EAAG,GAAI",
+  "names": ["template", "randomValue"]
+}

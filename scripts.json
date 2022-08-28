@@ -1,0 +1,16 @@
+{
+  "$schema": "https://deno.land/x/denon@2.5.0/schema.json",
+  "scripts": {
+    "develop_frontend": {
+      "cmd": "deno run frontend/build.ts",
+      "allow": ["read", "write", "env", "run", "net"]
+    },
+    "develop_backend": {
+      "cmd": "deno run backend/webserver.ts",
+      "allow": ["net", "read"]
+    }
+  },
+  "watcher": {
+    "skip": ["frontend/dist/**/*.*"]
+  }
+}

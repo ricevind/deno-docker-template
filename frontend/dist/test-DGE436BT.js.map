@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/test/test.ts"],
+  "sourcesContent": ["type kupa = string;\n\nexport function errorMe(t: kupa) {\n  console.log(\"Hello lazy\", t);\n}\n"],
+  "mappings": "AAEO,SAASA,EAAQC,EAAS,CAC/B,QAAQ,IAAI,aAAcA,CAAC,CAC7B",
+  "names": ["errorMe", "t"]
+}

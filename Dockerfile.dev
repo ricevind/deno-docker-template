@@ -1,0 +1,9 @@
+FROM lukechannings/deno
+
+COPY . ./app
+WORKDIR /app
+
+RUN deno install -qAf --unstable https://deno.land/x/denon/denon.ts
+RUN deno cache deps.ts 
+
+ENTRYPOINT [ "/usr/bin/bash", "parallel.sh"]
