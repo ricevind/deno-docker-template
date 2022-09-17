@@ -1,2 +1,5 @@
 # fronted dist folder
-./fronted/dist
+frontend/dist
+
+# localhost certs
+localhost_cert

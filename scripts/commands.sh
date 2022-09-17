@@ -8,12 +8,12 @@ build_develop_image () {
 
 develop () {
     build_develop_image
-    docker run -it --rm -v "$PWD:/app" -p "8080:8080" deno-develop-app
+    docker run -it --rm -v "$PWD:/app" -p "8080:8080" -p "8443:8443" deno-develop-app
 }
 
 enter_deno() {
     build_develop_image
-    docker run -it --rm -v "$PWD:/app" -p "8080:8080" --entrypoint /bin/bash deno-develop-app
+    docker run -it --rm -v "$PWD:/app" -p "8080:8080" -p "8443:8443" --entrypoint /bin/bash deno-develop-app
 }
 
 $1
