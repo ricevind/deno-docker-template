@@ -1,6 +1,5 @@
 import { ConnInfo, Handler, staticFiles } from "../deps.ts";
-import { router } from "./router.ts";
-import "./api/mod.ts";
+import { getUserAgent } from "./api/user-agent.ts";
 
 const distPattern = /\/dist\/.*/;
 const staticPattern = /\/static\/.*/;
@@ -28,6 +27,7 @@ const routesMapping = new Map<RegExp, Handler>([
   [distPattern, serveDist],
   [staticPattern, serveStatic],
   [indexPattern, serveIndex],
+  [/\/api\/agent/, getUserAgent],
 ]);
 
 const handler = (request: Request, connInfo: ConnInfo) => {
@@ -40,13 +40,10 @@ const handler = (request: Request, connInfo: ConnInfo) => {
     }
   }
 
-  try {
-    return router.handleRequest(request);
-  } catch (e) {
-    console.error(e);
+  const unhandledPathError = new Error(`Path ${path} was not handled`);
+  console.warn(unhandledPathError);
 
-    return Response.redirect(`${url.protocol}${url.host}/`);
-  }
+  return Response.redirect(`${url.protocol}${url.host}/`);
 };
 
 const port = 8443;
