@@ -53,14 +53,12 @@ const port = 8443;
 const certFile = "./localhost_cert/localhost.crt";
 const keyFile = "./localhost_cert/localhost.key";
 
-for await (
-  const conn of Deno.listenTls({
-    port,
-    certFile,
-    keyFile,
-    alpnProtocols: ["h2", "http/1.1"],
-  })
-) {
+for await (const conn of Deno.listenTls({
+  port,
+  certFile,
+  keyFile,
+  alpnProtocols: ["h2", "http/1.1"],
+})) {
   serveHttp(conn);
 }
 

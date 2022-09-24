@@ -35,6 +35,5 @@ function drawEvent(events: ReturnType<typeof listenEvents>) {
 }
 
 setTimeout(async () => {
-  const mod = await import("./test/test.ts");
-  mod.errorMe("kupa");
+  await import("./lazy-module/lazy.ts");
 }, 2000);
