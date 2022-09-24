@@ -1,4 +1,4 @@
-import { listenEvents } from "./test/sse.ts";
+import { listenEvents } from "./sse/sse.ts";
 
 const template = document.createElement("div");
 
