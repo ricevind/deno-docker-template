@@ -1,5 +1,5 @@
 export * as staticFiles from "https://deno.land/x/static_files@1.1.6/mod.ts";
-export { serve } from "https://deno.land/std@0.152.0/http/server.ts";
+export { serveTls } from "https://deno.land/std@0.152.0/http/server.ts";
 export type {
   ConnInfo,
   Handler,

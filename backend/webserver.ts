@@ -1,6 +1,6 @@
-import { ConnInfo, Handler, serve, staticFiles } from "../deps.ts";
+import { ConnInfo, Handler, staticFiles } from "../deps.ts";
+import { getUserAgent } from "./api/user-agent.ts";
 
-const apiPattern = /\/api\/.*/;
 const distPattern = /\/dist\/.*/;
 const staticPattern = /\/static\/.*/;
 const indexPattern = /^(\/)?$/;
@@ -23,28 +23,12 @@ const serveIndex = (req: Request) =>
     respondWith: (r: Response) => r,
   });
 
-const handleApi = (req: Request) => {
-  const body = `Your user-agent is: \n\n ${
-    req.headers.get("user-agent") ?? "Unknown"
-  }`;
-
-  return new Response(body, { status: 300 });
-};
-
-const routesMapping = new Map<RegExp, Handler>(
-  [
-    [apiPattern, handleApi],
-    [distPattern, serveDist],
-    [
-      staticPattern,
-      serveStatic,
-    ],
-    [
-      indexPattern,
-      serveIndex,
-    ],
-  ],
-);
+const routesMapping = new Map<RegExp, Handler>([
+  [distPattern, serveDist],
+  [staticPattern, serveStatic],
+  [indexPattern, serveIndex],
+  [/\/api\/agent/, getUserAgent],
+]);
 
 const handler = (request: Request, connInfo: ConnInfo) => {
   const url = new URL(request.url);
@@ -62,14 +46,24 @@ const handler = (request: Request, connInfo: ConnInfo) => {
   return Response.redirect(`${url.protocol}${url.host}/`);
 };
 
-const port = 8080;
+const port = 8443;
+const certFile = "./localhost_cert/localhost.crt";
+const keyFile = "./localhost_cert/localhost.key";
 
-const startWebServer = ({
-  port,
-}: {
-  port: number;
-}): Promise<void> => {
-  return serve(handler, { port });
-};
+for await (
+  const conn of Deno.listenTls({
+    port,
+    certFile,
+    keyFile,
+    alpnProtocols: ["h2", "http/1.1"],
+  })
+) {
+  serveHttp(conn);
+}
 
-await startWebServer({ port });
+async function serveHttp(conn: Deno.Conn) {
+  const httpConn = Deno.serveHttp(conn);
+  for await (const requestEvent of httpConn) {
+    requestEvent.respondWith(handler(requestEvent.request, conn));
+  }
+}

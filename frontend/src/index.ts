@@ -9,6 +9,5 @@ template.innerHTML = `
 document.querySelector("body")?.appendChild(template);
 
 setTimeout(async () => {
-  const mod = await import("./test/test.ts");
-  mod.errorMe("kupa");
+  await import("./lazy-module/lazy.ts");
 }, 2000);

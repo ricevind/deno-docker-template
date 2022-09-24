@@ -6,7 +6,7 @@
       "allow": ["read", "write", "env", "run", "net"]
     },
     "develop_backend": {
-      "cmd": "deno run backend/webserver.ts",
+      "cmd": "deno run --unstable backend/webserver.ts",
       "allow": ["net", "read"]
     }
   },
